@@ -45,7 +45,7 @@ export default function Navbar({ isDark, onThemeToggle }: NavProps) {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              🌐 AuraForge
+              🌐
             </div>
           </Link>
 
