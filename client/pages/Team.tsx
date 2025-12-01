@@ -69,8 +69,8 @@ export default function Team() {
     },
     {
       id: "6",
-      name: "Instructor",
-      role: "Course Mentor",
+      name: "Devishree Naidu",
+      role: "Course Instructor",
       project: "Course Coordinator",
       github: "#",
       avatar: "👨‍🏫"
