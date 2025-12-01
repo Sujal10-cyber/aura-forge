@@ -45,7 +45,7 @@ export default function Team() {
     },
     {
       id: "3",
-      name: "Dev Lover",
+      name: "Sharvan Kotharu , Sujal Tembhare , Soumya Wasule",
       role: "Lead - DNS Monitoring",
       project: "Advanced Analysis of DNS Traffic",
       github: "https://github.com/dev-lov-oper",
