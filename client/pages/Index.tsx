@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import ProjectCard from "@/components/ProjectCard";
 import FilterBar from "@/components/FilterBar";
 import Stats from "@/components/Stats";
-import Testimonials from "@/components/Testimonials";
 import Navbar from "@/components/Navbar";
 import { PROJECTS } from "@shared/projects";
 
@@ -90,30 +89,6 @@ export default function Index() {
       label: "Concepts Covered",
       value: "15+",
       description: "Networking fundamentals & advanced",
-    },
-  ];
-
-  const testimonials = [
-    {
-      id: "1",
-      name: "Apeksha",
-      role: "Student | Anomaly Detection Lead",
-      content: "Working on anomaly detection taught me how network protocols work in practice. The WireShark analysis was eye-opening!",
-      avatar: "A",
-    },
-    {
-      id: "2",
-      name: "Soumya",
-      role: "Student | NS3 Simulation Expert",
-      content: "Building the NS3 simulation helped me understand routing algorithms and network topologies at a deeper level.",
-      avatar: "S",
-    },
-    {
-      id: "3",
-      name: "Ayush",
-      role: "Student | Security Focus",
-      content: "The IP access control project made security concepts tangible. I learned how firewalls really protect networks.",
-      avatar: "A",
     },
   ];
 
@@ -272,9 +247,6 @@ export default function Index() {
         <div className="absolute top-20 left-10 h-64 w-64 rounded-full bg-blue-100 dark:bg-blue-900 opacity-10 blur-3xl" />
         <div className="absolute bottom-20 right-10 h-80 w-80 rounded-full bg-purple-100 dark:bg-purple-900 opacity-10 blur-3xl" />
       </section>
-
-      {/* Testimonials Section */}
-      <Testimonials testimonials={testimonials} />
 
       {/* Footer CTA Section */}
       <section className="w-full py-16 px-4 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700 text-white text-center">
