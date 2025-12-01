@@ -91,12 +91,6 @@ export default function Index() {
       value: "15+",
       description: "Networking fundamentals & advanced",
     },
-    {
-      icon: "⭐",
-      label: "Total Views",
-      value: PROJECTS.reduce((sum, p) => sum + p.views, 0).toLocaleString(),
-      description: "Community engagement",
-    },
   ];
 
   const testimonials = [
