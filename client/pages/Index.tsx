@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react";
 import ProjectCard from "@/components/ProjectCard";
+import FilterBar from "@/components/FilterBar";
+import Stats from "@/components/Stats";
+import Testimonials from "@/components/Testimonials";
+import Navbar from "@/components/Navbar";
 import { PROJECTS } from "@shared/projects";
 
 export default function Index() {
   const [isDark, setIsDark] = useState(false);
   const [visibleCards, setVisibleCards] = useState<string[]>([]);
+  const [filteredProjects, setFilteredProjects] = useState(PROJECTS);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);
+
+  const categories = Array.from(new Set(PROJECTS.map((p) => p.category)));
 
   useEffect(() => {
-    document.documentElement.scrollBehavior = "smooth";
-    
     // Check for dark mode preference
     const isDarkMode = document.documentElement.classList.contains("dark");
     setIsDark(isDarkMode);
@@ -20,6 +28,31 @@ export default function Index() {
       }, index * 150);
     });
   }, []);
+
+  useEffect(() => {
+    let filtered = PROJECTS;
+
+    // Search filter
+    if (searchQuery) {
+      filtered = filtered.filter(
+        (p) =>
+          p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Category filter
+    if (selectedCategory) {
+      filtered = filtered.filter((p) => p.category === selectedCategory);
+    }
+
+    // Difficulty filter
+    if (selectedDifficulty) {
+      filtered = filtered.filter((p) => p.difficulty === selectedDifficulty);
+    }
+
+    setFilteredProjects(filtered);
+  }, [searchQuery, selectedCategory, selectedDifficulty]);
 
   const handleExploreClick = () => {
     const projectsSection = document.getElementById("projects");
@@ -39,27 +72,64 @@ export default function Index() {
     }
   };
 
+  const stats = [
+    {
+      icon: "📊",
+      label: "Total Projects",
+      value: PROJECTS.length,
+      description: "Hands-on networking implementations",
+    },
+    {
+      icon: "👥",
+      label: "Student Contributions",
+      value: "20+",
+      description: "From diverse CS backgrounds",
+    },
+    {
+      icon: "🎓",
+      label: "Concepts Covered",
+      value: "15+",
+      description: "Networking fundamentals & advanced",
+    },
+    {
+      icon: "⭐",
+      label: "Total Views",
+      value: PROJECTS.reduce((sum, p) => sum + p.views, 0).toLocaleString(),
+      description: "Community engagement",
+    },
+  ];
+
+  const testimonials = [
+    {
+      id: "1",
+      name: "Apeksha",
+      role: "Student | Anomaly Detection Lead",
+      content: "Working on anomaly detection taught me how network protocols work in practice. The WireShark analysis was eye-opening!",
+      avatar: "A",
+    },
+    {
+      id: "2",
+      name: "Soumya",
+      role: "Student | NS3 Simulation Expert",
+      content: "Building the NS3 simulation helped me understand routing algorithms and network topologies at a deeper level.",
+      avatar: "S",
+    },
+    {
+      id: "3",
+      name: "Ayush",
+      role: "Student | Security Focus",
+      content: "The IP access control project made security concepts tangible. I learned how firewalls really protect networks.",
+      avatar: "A",
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950 transition-colors duration-300">
-      {/* Theme Toggle */}
-      <button
-        onClick={toggleDarkMode}
-        className="fixed top-6 right-6 z-50 p-3 rounded-full bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110"
-        aria-label="Toggle dark mode"
-      >
-        {isDark ? (
-          <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.22 1.78a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zm2.828 2.828a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm2.22 4.22a1 1 0 011.414-1.414l.707.707a1 1 0 01-1.414 1.414l-.707-.707zm0-8.84a1 1 0 010 1.414L19.707 7.5a1 1 0 01-1.414-1.414l.707-.707zM15 17a1 1 0 100-2h-1a1 1 0 100 2h1zM4.22 13.78a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zm2.828 2.828a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zM3 11a1 1 0 100-2H2a1 1 0 100 2h1zm0-6a1 1 0 010 1.414L2.293 7.5a1 1 0 01-1.414-1.414l.707-.707A1 1 0 013 5zm0 6a1 1 0 010 1.414L2.293 13.5a1 1 0 01-1.414-1.414l.707-.707A1 1 0 013 11z" clipRule="evenodd" />
-          </svg>
-        ) : (
-          <svg className="w-5 h-5 text-slate-700" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-          </svg>
-        )}
-      </button>
+      {/* Navbar */}
+      <Navbar isDark={isDark} onThemeToggle={toggleDarkMode} />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-900 px-4 py-20 sm:py-32">
+      <section className="relative overflow-hidden bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-900 px-4 py-24 sm:py-40 mt-16">
         {/* Animated decorative elements */}
         <div className="absolute top-20 right-10 h-72 w-72 rounded-full bg-blue-200 dark:bg-blue-900 opacity-20 blur-3xl animate-pulse" />
         <div className="absolute -bottom-20 left-10 h-80 w-80 rounded-full bg-purple-200 dark:bg-purple-900 opacity-20 blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
@@ -74,9 +144,9 @@ export default function Index() {
 
           {/* Main heading */}
           <h1 className="mb-6 text-5xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-6xl lg:text-7xl animate-fade-in">
-            Networking projects : A1
+            Networking Projects : A1
             <span className="block mt-6 sm:mt-8 text-3xl sm:text-4xl lg:text-5xl bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
-              <i>Hands on</i>
+              <i>Hands On</i>
             </span>
           </h1>
 
@@ -128,6 +198,9 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Statistics Section */}
+      <Stats stats={stats} />
+
       {/* Projects Section */}
       <section
         id="projects"
@@ -135,7 +208,7 @@ export default function Index() {
       >
         <div className="mx-auto max-w-7xl">
           {/* Section header */}
-          <div className="mb-20 text-center">
+          <div className="mb-12 text-center">
             <div className="inline-block mb-4 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800">
               <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">
                 Our Work
@@ -149,44 +222,56 @@ export default function Index() {
             </p>
           </div>
 
-          {/* Flowing Cascade Layout */}
-          <div className="flex flex-wrap gap-6 justify-center items-start perspective">
-            {PROJECTS.map((project, index) => {
-              // Cascading wave effect
-              const offsetY = (index % 2) * 60;
-              const offsetX = (index * 20);
-              const rotation = index % 2 === 0 ? -4 : 3;
+          {/* Filter Bar */}
+          <FilterBar
+            onSearchChange={setSearchQuery}
+            onCategoryChange={setSelectedCategory}
+            onDifficultyChange={setSelectedDifficulty}
+            categories={categories}
+          />
 
-              return (
+          {/* Projects Grid */}
+          {filteredProjects.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-max">
+              {filteredProjects.map((project, index) => (
                 <div
                   key={project.id}
-                  className={`transform transition-all duration-500 hover:z-50 hover:scale-105 hover:rotate-0 ${
+                  className={`transform transition-all duration-500 ${
                     visibleCards.includes(project.id)
-                      ? "opacity-100"
+                      ? "opacity-100 translate-y-0"
                       : "opacity-0 translate-y-12"
                   }`}
                   style={{
                     transitionDelay: `${index * 120}ms`,
-                    transform: `translateY(${offsetY}px) translateX(${offsetX % 100 - 50}px) rotateZ(${rotation}deg) perspective(1000px) rotateX(${index % 2 === 0 ? 2 : -2}deg)`,
-                    width: "288px",
-                    flex: "0 0 auto",
                   }}
                 >
-                  <div className="drop-shadow-xl hover:drop-shadow-2xl transition-all duration-300 h-full">
-                    <ProjectCard
-                      icon={project.icon}
-                      title={project.title}
-                      description={project.description}
-                      repositoryUrl={project.repositoryUrl}
-                      imageUrl={project.imageUrl}
-                      gradientFrom={project.gradientFrom}
-                      gradientTo={project.gradientTo}
-                    />
-                  </div>
+                  <ProjectCard
+                    icon={project.icon}
+                    title={project.title}
+                    description={project.description}
+                    repositoryUrl={project.repositoryUrl}
+                    imageUrl={project.imageUrl}
+                    gradientFrom={project.gradientFrom}
+                    gradientTo={project.gradientTo}
+                    techStack={project.techStack}
+                    difficulty={project.difficulty}
+                    category={project.category}
+                    views={project.views}
+                  />
                 </div>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <div className="text-4xl mb-4">🔍</div>
+              <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
+                No projects found
+              </h3>
+              <p className="text-slate-600 dark:text-slate-400">
+                Try adjusting your filters or search term
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Decorative elements */}
@@ -194,53 +279,20 @@ export default function Index() {
         <div className="absolute bottom-20 right-10 h-80 w-80 rounded-full bg-purple-100 dark:bg-purple-900 opacity-10 blur-3xl" />
       </section>
 
-      {/* Stats Section */}
-      <section className="relative px-4 py-16 sm:py-20 bg-gradient-to-r from-slate-900 to-slate-800 dark:from-slate-900 dark:to-slate-950">
-        <div className="mx-auto max-w-6xl">
-          <div className="grid gap-8 sm:grid-cols-3 text-center text-white">
-            <div className="group">
-              <div className="mb-2 text-4xl sm:text-5xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text group-hover:scale-110 transition-transform duration-300">
-                5
-              </div>
-              <div className="text-sm sm:text-base text-slate-300 uppercase tracking-wide">
-                Projects
-              </div>
-            </div>
-            <div className="group">
-              <div className="mb-2 text-4xl sm:text-5xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text group-hover:scale-110 transition-transform duration-300">
-                Networking
-              </div>
-              <div className="text-sm sm:text-base text-slate-300 uppercase tracking-wide">
-                Focus Area
-              </div>
-            </div>
-            <div className="group">
-              <div className="mb-2 text-4xl sm:text-5xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text group-hover:scale-110 transition-transform duration-300">
-                Open
-              </div>
-              <div className="text-sm sm:text-base text-slate-300 uppercase tracking-wide">
-                Source
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Testimonials Section */}
+      <Testimonials testimonials={testimonials} />
 
       {/* Footer CTA Section */}
-     {/* Footer CTA Section */}
-{/* Footer CTA Section */}
-<section className="w-full py-16 px-4 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700 text-white text-center">
-  <div className="max-w-4xl mx-auto">
-    <h2 className="mb-3 text-3xl font-bold">
-      Ready to collaborate?
-    </h2>
-
-    <p className="text-lg text-blue-100 dark:text-blue-200">
-      Check out our repositories and contribute to amazing projects
-    </p>
-  </div>
-</section>
-
+      <section className="w-full py-16 px-4 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700 text-white text-center">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="mb-3 text-3xl font-bold">
+            Ready to explore networking?
+          </h2>
+          <p className="text-lg text-blue-100 dark:text-blue-200">
+            Check out our repositories and contribute to amazing projects
+          </p>
+        </div>
+      </section>
     </div>
   );
 }

@@ -7,6 +7,11 @@ export interface Project {
   imageUrl: string;
   gradientFrom: string;
   gradientTo: string;
+  category: "Analysis" | "Simulation" | "Protocol" | "Security" | "Infrastructure";
+  techStack: string[];
+  difficulty: "Beginner" | "Intermediate" | "Advanced";
+  views: number;
+  year: number;
 }
 
 export const PROJECTS: Project[] = [
@@ -19,6 +24,11 @@ export const PROJECTS: Project[] = [
     imageUrl: "https://images.pexels.com/photos/24783389/pexels-photo-24783389.jpeg",
     gradientFrom: "#3b82f6",
     gradientTo: "#1e40af",
+    category: "Analysis",
+    techStack: ["WireShark", "Python", "ML", "Network Traffic"],
+    difficulty: "Advanced",
+    views: 1250,
+    year: 2024,
   },
   {
     id: "2",
@@ -29,6 +39,11 @@ export const PROJECTS: Project[] = [
     imageUrl: "https://images.pexels.com/photos/17483868/pexels-photo-17483868.jpeg",
     gradientFrom: "#a855f7",
     gradientTo: "#6b21a8",
+    category: "Simulation",
+    techStack: ["NS-3", "C++", "Routing", "Topology"],
+    difficulty: "Advanced",
+    views: 2100,
+    year: 2024,
   },
   {
     id: "3",
@@ -39,6 +54,11 @@ export const PROJECTS: Project[] = [
     imageUrl: "https://images.pexels.com/photos/19317897/pexels-photo-19317897.jpeg",
     gradientFrom: "#ec4899",
     gradientTo: "#9d174d",
+    category: "Protocol",
+    techStack: ["DNS", "WireShark", "Network Analysis", "Security"],
+    difficulty: "Intermediate",
+    views: 1890,
+    year: 2024,
   },
   {
     id: "4",
@@ -49,6 +69,11 @@ export const PROJECTS: Project[] = [
     imageUrl: "https://images.pexels.com/photos/19825057/pexels-photo-19825057.jpeg",
     gradientFrom: "#10b981",
     gradientTo: "#065f46",
+    category: "Protocol",
+    techStack: ["FTP", "Server", "File Transfer", "Configuration"],
+    difficulty: "Beginner",
+    views: 945,
+    year: 2024,
   },
   {
     id: "5",
@@ -58,6 +83,11 @@ export const PROJECTS: Project[] = [
     icon: "🔐",
     imageUrl: "https://images.pexels.com/photos/27934787/pexels-photo-27934787.jpeg",
     gradientFrom: "#f97316",
-    gradientTo: "#a16207",
+    gradientTo: "#ea580c",
+    category: "Security",
+    techStack: ["ACL", "IP Filtering", "Geolocation", "Firewall"],
+    difficulty: "Advanced",
+    views: 1567,
+    year: 2024,
   },
 ];
